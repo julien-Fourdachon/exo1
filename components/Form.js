@@ -1,51 +1,64 @@
 import React, {Component} from 'react'
-import GenerateForm from 'react-native-form-builder'
-import { View, Button, Text } from 'native-base'
+import { View, Button, TextInput } from 'react-native'
 import style from './Form.style'
+import axios from 'axios'
+
+console.ignoredYellowBox = ['Remote debugger'];
 
 
-//Création des champs du formulaire
-const fields = [
-    {
-        type: 'email',
-        name: 'email',
-        required: true,
-        icon: 'ios-person',
-        label: 'Adresse e-mail'
-    },
-    {
-        type: 'password',
-        name: 'password',
-        required: true,
-        icon: 'ios-lock',
-        label: "Mot de passe"
-    }
-]
+      export default class Form extends Component{
 
-export default class Form extends Component {
+          constructor(props){
+              super(props)
+              this.state = {email: '', password: ''}
+          }
 
-    login() {
-        const formValues = this.form.getValues();
-        console.log (formValues);
-    }
+
+          _handleChangeStateMail = email => this.setState({email})
+          _handleChangeStatePassword = password => this.setState({password})
+
+          getAnimalsFromApi =   () => {
+
+
+              axios({
+                  method: 'post',
+                  url: 'https://api-test.oph74.fr/julien/login',
+                  params: {
+                      email: this.state.email,
+                      password: this.state.password
+                  }
+              }) .then(function (response) {
+                  console.log(response);
+              })
+                  .catch(function (error) {
+                      console.log(error);
+                  });
+          }
 
     render(){
-        return (
-            <View style ={style.form}>
-                <View>
-                    <GenerateForm ref={(c) => {
-                        this.form = c;
-                    }}
-                    fields  = {fields}
-                    />
-                </View>
-                <View>
-                    <Button style = {style.login} onPress = {() => this.login()}>
-                        <Text>Login</Text>
-                    </Button>
-                </View>
+
+
+        const {email} = this.state.email
+        const {password} = this.state.password
+        return(
+
+
+            <View style={style.form}>
+
+                <TextInput style = {style.login}
+                    onChangeText = {this._handleChangeStateMail}
+                    value = {email}
+                    placeholder = 'Adresse email'
+                />
+                <TextInput style = {style.login}
+                    onChangeText = {this._handleChangeStatePassword}
+                    value = {password}
+                    placeholder = 'Mot de passe'
+                />
+                <Button title ='Login' onPress = {this.getAnimalsFromApi}/>
             </View>
+
+
         )
     }
-
-}
+        }

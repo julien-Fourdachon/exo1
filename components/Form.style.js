@@ -1,14 +1,19 @@
-import {StyleSheet} from 'native-base'
+import {StyleSheet} from 'react-native'
 
 const style ={
 
     form: {
         flex: 1,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     login: {
-        marginTop: 20,
-        marginLeft: 150
+        width: 250,
+        height: 150,
+        borderWidth: 2,
+        height: 40,
+        margin: 20
+
     }
 }
 
